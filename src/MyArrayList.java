@@ -1,6 +1,6 @@
 import java.util.Arrays;
 public class MyArrayList<T> {
-    private final int DEFAULT_CAPACITY = 5;
+    private final int DEFAULT_CAPACITY = 10;
     private final T[] DEFAULT_CAPACITY_VAULT = (T[]) new Object[DEFAULT_CAPACITY];
     private T[] vault;
     private int capacity;
@@ -28,9 +28,8 @@ public class MyArrayList<T> {
             vault = Arrays.copyOf(vault, capacity);
             vault[capacity - 1] = value;
         }
-        System.out.println("Элемент <" + value + "> под индексом <" + size + "> добавлен в коллекцию");
+        System.out.println("Элемент добавлен");
         size++;
-        System.out.println("Размер коллекции: " + size);
     }
 
     public void remove(int index){
@@ -38,17 +37,15 @@ public class MyArrayList<T> {
             T temp = vault[index];
             System.arraycopy(vault, index +1, vault, index, capacity - index - 1);
             vault[capacity - 1] = null;
-            System.out.println("Элемент под индеком " + index + ": <" + temp + "> - удален");
+            System.out.println("Элемент удален");
             size--;
         }
         else {
-            System.out.println("Элемент под таким индексом в данной коллекции отсутствует");
+            System.out.println("Элемент не найден");
         }
     }
 
     public void clear(){
-        System.out.println(size);
-        System.out.println(capacity);
         if (size > 0) {
             for (int i = 0; i < size; i++) {
                 vault[i] = null;
@@ -70,7 +67,7 @@ public class MyArrayList<T> {
             return vault[index];
         }
         else {
-            System.out.println("Несуществующий индекс");
+            System.out.println("Элемент не найден");
             return null;
         }
     }

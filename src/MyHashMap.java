@@ -1,8 +1,8 @@
 import java.util.NoSuchElementException;
 
 public class MyHashMap<K, V> {
-    int size = 0;
-    int capacity;
+    private int size = 0;
+    private int capacity;
     private Node<K, V>[] table;
 
     public MyHashMap() {
@@ -20,10 +20,11 @@ public class MyHashMap<K, V> {
             if (table[0] == null) {
                 table[0] = new Node<>(0, null, vault);
                 size++;
+                System.out.println("Элемент добавлен");
             }
             else {
                 table[0].vault = vault;
-                System.out.println("Элемент коллекции с ключем null заменен");
+                System.out.println("Значение элемента обновлено");
             }
         }
         else {
@@ -33,6 +34,7 @@ public class MyHashMap<K, V> {
             if (table[index] == null) {
                 table[index] = new Node<>(hash, key, vault);
                 size++;
+                System.out.println("Элемент добавлен");
             }
             else {
                 Node<K, V> temp = table[index];
@@ -40,13 +42,14 @@ public class MyHashMap<K, V> {
                 while (true) {
                     if (temp.key.equals(key)) {
                         temp.vault = vault;
-                        System.out.println("Элемент коллекции с ключем <" + key + "> заменен");
+                        System.out.println("Значение элемента обновлено");
                         return;
                     }
 
                     if (temp.next == null) {
                         temp.next = new Node<>(hash, key, vault);
                         size++;
+                        System.out.println("Элемент добавлен");
                         return;
                     }
                     else {
@@ -63,7 +66,7 @@ public class MyHashMap<K, V> {
             table[0].next = null;
             table[0] = null;
             size--;
-            System.out.println("Элемент коллекции с ключем null удален");
+            System.out.println("Элемент удален");
         }
         else {
             int hash = key.hashCode();
@@ -75,7 +78,7 @@ public class MyHashMap<K, V> {
                 table[index].next = null;
                 table[index] = temp;
                 size--;
-                System.out.println("Элемент коллекции с ключем <" + key + "> удален");
+                System.out.println("Элемент удален");
                 return;
             } else {
                 Node<K, V> tempPrev = table[index];
@@ -86,7 +89,7 @@ public class MyHashMap<K, V> {
                         temp.vault = null;
                         tempPrev.next = temp.next;
                         size--;
-                        System.out.println("Элемент коллекции с ключем <" + key + "> удален");
+                        System.out.println("Элемент удален");
                         return;
                     }
                     else {
@@ -95,33 +98,36 @@ public class MyHashMap<K, V> {
                     }
                 }
             }
-
-            System.out.println("По указанному ключу элемент в коллекции не найден");
+            System.out.println("Элемент не найден");
         }
     }
 
     public void clear() {
-        for(int i = 0; i < capacity; i++) {
-            if (table[i] != null) {
-                Node<K, V> temp = table[i].next;
-                table[i].vault = null;
-                table[i].next = null;
-                table[i] = null;
-                size--;
-
-                while (temp != null) {
-                    Node<K, V> tempNext = temp.next;
-                    temp.vault = null;
-                    temp.next = null;
-                    temp = tempNext;
+        if(size != 0) {
+            for (int i = 0; i < capacity; i++) {
+                if (table[i] != null) {
+                    Node<K, V> temp = table[i].next;
+                    table[i].vault = null;
+                    table[i].next = null;
+                    table[i] = null;
                     size--;
+
+                    while (temp != null) {
+                        Node<K, V> tempNext = temp.next;
+                        temp.vault = null;
+                        temp.next = null;
+                        temp = tempNext;
+                        size--;
+                    }
                 }
             }
+            capacity = 0;
+            table = null;
+            System.out.println("Коллекция очищена");
         }
-
-        capacity = 0;
-        table = null;
-        System.out.println("Коллекция очищена");
+        else {
+            System.out.println("Коллекция и так пуста");
+        }
     }
 
     public int size() {
@@ -143,7 +149,6 @@ public class MyHashMap<K, V> {
                 }
                 temp = temp.next;
             } while (temp != null);
-
             throw new NoSuchElementException();
         }
     }
@@ -178,10 +183,8 @@ public class MyHashMap<K, V> {
                     str.append(temp.vault.toString()).append(" | ");
                     temp = temp.next;
                 }
-
                 str.append("\n");
             }
-
             return str.toString();
         }
     }

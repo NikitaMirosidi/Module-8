@@ -43,14 +43,12 @@ public class MyLinkedList<T> {
             Node<T> tempPrev = temp.prev;
             tempNext.prev = temp.prev;
             tempPrev.next = temp.next;
-            T toShow = temp.vault;
             temp.vault = null;
-            temp = null;
             size--;
-            System.out.println("Элемент коллекции под индексом <" + index + "> со значением <" + toShow + "> удален");
+            System.out.println("Элемент удален");
         }
         else {
-            System.out.println("Элемент под указанным индексом отсутствует в коллекции");
+            System.out.println("Элемент не найден");
         }
     }
 
@@ -87,12 +85,10 @@ public class MyLinkedList<T> {
                 temp = temp.next;
                 count--;
             }
-
             return res;
         }
-
         else {
-            System.out.println("Элемент под указанным индексом отсутствует в коллекции");
+            System.out.println("Элемент не найден");
             return null;
         }
     }
